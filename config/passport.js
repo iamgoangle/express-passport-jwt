@@ -12,6 +12,8 @@ module.exports = (passport) => {
   jwtOptions.jwtFromRequest = ExtractJwt.fromHeader('x-access-token');
   jwtOptions.secretOrKey = APP_CONFIG.API_SECRET;
 
+  console.log(jwtOptions);
+
   // TODO: This is style 1
 
   // const strategy =  new JwtStrategy(jwtOptions, (jwt_payload, next) => {
@@ -28,7 +30,7 @@ module.exports = (passport) => {
   // TODO: Refactoring. Do it need to check with db every authenticate?
   // [1] Is it enough just extract token and validate payload with regular expression
   passport.use(new JwtStrategy(jwtOptions, (jwt_payload, next) => {
-    const user = User.findOne({ username: payload.username }, (err, user) => {
+    const user = User.findOne({ username: jwt_payload.username }, (err, user) => {
       if (user) {
         return next(null, user);
       } else {
