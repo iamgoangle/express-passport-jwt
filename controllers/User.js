@@ -22,6 +22,7 @@ const signup = (req, res, next) => {
 };
 
 const getUsers = (req, res, next) => {
+  console.log(req);
   User.find({}, { __v: 0 }, (err, users) => {
     res.status(200).json({
       success: true,
